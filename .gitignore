@@ -2,3 +2,4 @@
 .env.local
 .local_secrets
 .idea
+envs

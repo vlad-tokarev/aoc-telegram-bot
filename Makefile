@@ -1,6 +1,7 @@
 
 SECRETS_DIR=
 DOCKER_REGISTRY=
+ENV_D=shmatov
 
 -include .env
 -include .env.local
@@ -39,18 +40,18 @@ docker-all: docker-build docker-push
 # Kubernetes
 
 deploy-config-map:
-	kubectl delete cm/aoc-bot --ignore-not-found -n default
-	kubectl create cm aoc-bot --from-env-file=.env
+	kubectl delete cm/aoc-bot-${ENV_D} --ignore-not-found -n default
+	kubectl create cm aoc-bot-${ENV_D} --from-env-file=envs/${ENV_D}/.env
 
 deploy-secret:
-	kubectl delete secret/aoc-bot --ignore-not-found -n default
-	kubectl create secret generic aoc-bot --from-file=${SECRETS_DIR}/aoc_bot__aoc_session_id --from-file=${SECRETS_DIR}/aoc_bot__telegram_token -n default
+	kubectl delete secret/aoc-bot-${ENV_D} --ignore-not-found -n default
+	kubectl create secret generic aoc-bot-${ENV_D} --from-file=${SECRETS_DIR}/aoc_bot__aoc_session_id --from-file=${SECRETS_DIR}/aoc_bot__telegram_token -n default
 
 deploy-app:
-	kubectl apply -f deploy/deployment.yaml -n default
+	kubectl apply -f envs/${ENV_D}/deployment.yaml -n default
 
 restart-app:
-	kubectl rollout restart deploy/aoc-bot
+	kubectl rollout restart deploy/aoc-bot-${ENV_D}
 
 deploy-all: deploy-config-map deploy-secret deploy-app
 

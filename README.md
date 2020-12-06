@@ -83,12 +83,6 @@ make test
 #### Kubernetes
 
 You can find example of Kubernetes `Deployment` in the `./deploy` folder. 
-You can find make helpers to create `ConfigMap` from .env file and `Secret` from `$SECRETS_DIR`.
-```shell script
-make deploy-config-map
-make deploy-secret
-```
-
 
 #### QA
 
