@@ -91,12 +91,12 @@ class LeaderBoardDiff(pydantic.BaseModel):
         headers = ["pos", "score", "user"]
         tbl = []
         for mp in self.members:
-            pch = f"{mp.pos_change:>+5}" if mp.pos_change else f"{'0':>5}"
-            lch = f"{mp.score_change:>+6}" if mp.score_change else f"{'0':>6}"
+            pch = f"{mp.pos_change:>+3}" if mp.pos_change else f"{'0':>3}"
+            lch = f"{mp.score_change:>+3}" if mp.score_change else f"{'0':>3}"
             line = [
                 f"{str(mp.position):2} {pch}",
-                f"{str(mp.member.local_score):3} {lch}",
-                mp.member.username
+                f"{str(mp.member.local_score):4} {lch}",
+                mp.member.username[:18]
             ]
             tbl.append(line)
 
@@ -129,9 +129,9 @@ class LeaderBoard(pydantic.BaseModel):
         tbl = []
         for mp in self.sorted_members().values():
             line = [
-                f"{str(mp.position):7} ",
-                f"{str(mp.member.local_score):9} ",
-                mp.member.username
+                f"{str(mp.position):2} ",
+                f"{str(mp.member.local_score):4} ",
+                mp.member.username[:18]
             ]
             tbl.append(line)
 
