@@ -11,6 +11,7 @@ flake8 = "~=3.8"
 pydantic = "~=1.7"
 requests = "~=2.25"
 python-telegram-bot = "*"
+tabulate = "~=0.8"
 
 [requires]
 python_version = "3.9"

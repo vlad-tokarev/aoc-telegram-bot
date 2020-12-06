@@ -106,6 +106,19 @@ class TestLeaderBoard:
         print()
         print(diff)
 
+    @pytest.mark.skipif(not cfg.telegram_token,
+                        reason=f"{models.ENV_PREFIX}telegram_token secret is required for this test")
+    @pytest.mark.skipif(not cfg.telegram_chats,
+                        reason=f"{models.ENV_PREFIX}telegram_chats ENV is required for this test")
+    def test_sub_telegram(self):
+        with open("test_resources/aoc_leader_board.json") as f, \
+                open("test_resources/aoc_leader_board_changed.json") as f2:
+            lb = bot.LeaderBoard(**json.load(f))
+            lb_changed = bot.LeaderBoard(**json.load(f2))
+
+        diff = lb_changed - lb
+        bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, str(diff))
+
     def test_eq(self):
         with open("test_resources/aoc_leader_board.json") as f, \
                 open("test_resources/aoc_leader_board.json") as f2:

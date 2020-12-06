@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
 import pydantic
+from tabulate import tabulate
 
 SECRETS_DIR = os.environ.get("SECRETS_DIR", '/run/secrets')
 ENV_PREFIX = 'aoc_bot__'
@@ -73,12 +74,13 @@ class MemberWithPosition(pydantic.BaseModel):
 class MemberProgress(pydantic.BaseModel):
 
     def __str__(self):
-        return f"{self.position=} {self.change=} {self.member.username=} {self.member.local_score=} {self.new=}"
+        return f"{self.position=} {self.pos_change=} {self.member.username=} {self.member.local_score=} {self.new=}"
 
     member: Member
     position: int
+    pos_change: int
+    score_change: int
     new: bool
-    change: int
 
 
 class LeaderBoardDiff(pydantic.BaseModel):
@@ -86,42 +88,19 @@ class LeaderBoardDiff(pydantic.BaseModel):
 
     def __str__(self):
 
-        position_col = "pos"
-        change_col = "change"
-        score_col = "score"
-        stars_col = "stars"
-        user_col = "user"
-
-        pos_l = len(position_col)
-        ch_l = len(change_col)
-        sc_l = len(score_col)
-        stars_l = len(stars_col)
-        name_l = len(user_col)
-
+        headers = ["pos", "score", "user"]
+        tbl = []
         for mp in self.members:
-            m = mp.member
-            pos_l = max(pos_l, len(str(mp.position)))
-            ch_l = max(ch_l, len(str(mp.change)))
-            name_l = max(name_l, len(m.username))
-            sc_l = max(sc_l, len(str(m.local_score)))
-            stars_l = max(stars_l, len(m.stars))
+            pch = f"{mp.pos_change:>+5}" if mp.pos_change else f"{'0':>5}"
+            lch = f"{mp.score_change:>+6}" if mp.score_change else f"{'0':>6}"
+            line = [
+                f"{str(mp.position):2} {pch}",
+                f"{str(mp.member.local_score):3} {lch}",
+                mp.member.username
+            ]
+            tbl.append(line)
 
-        header = f"{position_col:{pos_l}} {change_col:{ch_l}} {score_col:{sc_l}} {user_col:{name_l}}"
-        members_reprs = [header]
-        for mp in self.members:
-            m = mp.member
-            pos = str(mp.position)
-            ch = mp.change
-            # new_ = "new" if mp.new else "   "
-            name = m.username
-            sc = str(m.local_score)
-            # stars = m.stars
-
-            repr_ = f"{pos:{pos_l}} {ch:<+{ch_l}} {sc:{sc_l}} {name:{name_l}}"
-
-            members_reprs.append(repr_)
-
-        return "\n".join(members_reprs)
+        return tabulate(tbl, headers=headers)
 
 
 class LeaderBoard(pydantic.BaseModel):
@@ -146,39 +125,17 @@ class LeaderBoard(pydantic.BaseModel):
         return result
 
     def __str__(self):
-
-        position_col = "pos"
-        score_col = "score"
-        stars_col = "stars"
-        user_col = "user"
-
-        pos_l = len(position_col)
-        sc_l = len(score_col)
-        stars_l = len(stars_col)
-        name_l = len(user_col)
-
+        headers = ["pos", "score", "user"]
+        tbl = []
         for mp in self.sorted_members().values():
-            m = mp.member
-            pos_l = max(pos_l, len(str(mp.position)))
-            name_l = max(name_l, len(m.username))
-            sc_l = max(sc_l, len(str(m.local_score)))
-            stars_l = max(stars_l, len(m.stars))
+            line = [
+                f"{str(mp.position):7} ",
+                f"{str(mp.member.local_score):9} ",
+                mp.member.username
+            ]
+            tbl.append(line)
 
-        header = f"{position_col:{pos_l}} {score_col:{sc_l}} {user_col:{name_l}}"
-        members_reprs = [header]
-        for mp in self.sorted_members().values():
-            m = mp.member
-            pos = str(mp.position)
-            # new_ = "new" if mp.new else "   "
-            name = m.username
-            sc = str(m.local_score)
-            # stars = m.stars
-
-            repr_ = f"{pos:{pos_l}} {sc:{sc_l}} {name:{name_l}}"
-
-            members_reprs.append(repr_)
-
-        return "\n".join(members_reprs)
+        return tabulate(tbl, headers=headers)
 
     def __eq__(self, other: 'LeaderBoard') -> bool:
         for k, v in self.members.items():
@@ -207,7 +164,8 @@ class LeaderBoard(pydantic.BaseModel):
                     member=mem_pos.member,
                     position=mem_pos.position,
                     new=True,
-                    change=0
+                    pos_change=0,
+                    score_change=0
                 )
             else:
                 old_mem_pos = old_leader_board[id_]
@@ -215,7 +173,8 @@ class LeaderBoard(pydantic.BaseModel):
                     member=mem_pos.member,
                     position=mem_pos.position,
                     new=False,
-                    change=-(mem_pos.position - old_mem_pos.position)
+                    pos_change=-(mem_pos.position - old_mem_pos.position),
+                    score_change=mem_pos.member.local_score - old_mem_pos.member.local_score
                 )
 
             members_change.append(prog)
