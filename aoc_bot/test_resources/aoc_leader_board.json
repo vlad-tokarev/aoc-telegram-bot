@@ -1,0 +1,507 @@
+
+{
+  "members": {
+    "379505": {
+      "id": "379505",
+      "local_score": 88,
+      "last_star_ts": "1607149211",
+      "stars": 10,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606801892"
+          },
+          "2": {
+            "get_star_ts": "1606802512"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606887659"
+          },
+          "2": {
+            "get_star_ts": "1606888240"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1606975472"
+          },
+          "2": {
+            "get_star_ts": "1607026975"
+          }
+        },
+        "4": {
+          "1": {
+            "get_star_ts": "1607061314"
+          },
+          "2": {
+            "get_star_ts": "1607065690"
+          }
+        },
+        "5": {
+          "1": {
+            "get_star_ts": "1607148239"
+          },
+          "2": {
+            "get_star_ts": "1607149211"
+          }
+        }
+      },
+      "global_score": 0,
+      "name": "Александр Шматов"
+    },
+    "410353": {
+      "id": "410353",
+      "last_star_ts": "1607152400",
+      "local_score": 94,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606818212"
+          },
+          "2": {
+            "get_star_ts": "1606818614"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606886677"
+          },
+          "2": {
+            "get_star_ts": "1606888251"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1606975840"
+          },
+          "2": {
+            "get_star_ts": "1606976804"
+          }
+        },
+        "4": {
+          "1": {
+            "get_star_ts": "1607060091"
+          },
+          "2": {
+            "get_star_ts": "1607063219"
+          }
+        },
+        "5": {
+          "1": {
+            "get_star_ts": "1607147578"
+          },
+          "2": {
+            "get_star_ts": "1607152400"
+          }
+        }
+      },
+      "stars": 10,
+      "global_score": 0,
+      "name": "AUlyantsev"
+    },
+    "435627": {
+      "last_star_ts": 0,
+      "local_score": 0,
+      "id": "435627",
+      "global_score": 0,
+      "name": "Михаил Fungus",
+      "completion_day_level": {
+
+      },
+      "stars": 0
+    },
+    "466883": {
+      "name": "Иван Яшин",
+      "global_score": 0,
+      "stars": 2,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606870563"
+          },
+          "2": {
+            "get_star_ts": "1606872031"
+          }
+        }
+      },
+      "last_star_ts": "1606872031",
+      "local_score": 0,
+      "id": "466883"
+    },
+    "498923": {
+      "last_star_ts": "1607098637",
+      "local_score": 34,
+      "id": "498923",
+      "name": null,
+      "global_score": 0,
+      "stars": 8,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1607094266"
+          },
+          "2": {
+            "get_star_ts": "1607094475"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1607095859"
+          },
+          "2": {
+            "get_star_ts": "1607096205"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1607096722"
+          },
+          "2": {
+            "get_star_ts": "1607096866"
+          }
+        },
+        "4": {
+          "1": {
+            "get_star_ts": "1607097570"
+          },
+          "2": {
+            "get_star_ts": "1607098637"
+          }
+        }
+      }
+    },
+    "615933": {
+      "name": "Илья Гребенников",
+      "global_score": 0,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606805803"
+          },
+          "2": {
+            "get_star_ts": "1606806215"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606888815"
+          },
+          "2": {
+            "get_star_ts": "1606891334"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1607010081"
+          },
+          "2": {
+            "get_star_ts": "1607011996"
+          }
+        },
+        "4": {
+          "1": {
+            "get_star_ts": "1607061906"
+          }
+        }
+      },
+      "stars": 7,
+      "local_score": 45,
+      "last_star_ts": "1607061906",
+      "id": "615933"
+    },
+    "623966": {
+      "id": "623966",
+      "last_star_ts": "1607060189",
+      "local_score": 81,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606801155"
+          },
+          "2": {
+            "get_star_ts": "1606801217"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606885700"
+          },
+          "2": {
+            "get_star_ts": "1606886167"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1606974014"
+          },
+          "2": {
+            "get_star_ts": "1606974453"
+          }
+        },
+        "4": {
+          "1": {
+            "get_star_ts": "1607059084"
+          },
+          "2": {
+            "get_star_ts": "1607060189"
+          }
+        }
+      },
+      "stars": 8,
+      "global_score": 0,
+      "name": "Sergo"
+    },
+    "650007": {
+      "stars": 8,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606801371"
+          },
+          "2": {
+            "get_star_ts": "1606801499"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606885818"
+          },
+          "2": {
+            "get_star_ts": "1606893898"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1606973835"
+          },
+          "2": {
+            "get_star_ts": "1606976704"
+          }
+        },
+        "4": {
+          "1": {
+            "get_star_ts": "1607058637"
+          },
+          "2": {
+            "get_star_ts": "1607059696"
+          }
+        }
+      },
+      "name": "Антон Кулинский",
+      "global_score": 0,
+      "id": "650007",
+      "last_star_ts": "1607059696",
+      "local_score": 75
+    },
+    "657352": {
+      "name": "jirotakeo",
+      "global_score": 0,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606846578"
+          },
+          "2": {
+            "get_star_ts": "1606846802"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606943180"
+          },
+          "2": {
+            "get_star_ts": "1606944449"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1606984753"
+          },
+          "2": {
+            "get_star_ts": "1606986140"
+          }
+        }
+      },
+      "stars": 6,
+      "last_star_ts": "1606986140",
+      "local_score": 29,
+      "id": "657352"
+    },
+    "751506": {
+      "global_score": 0,
+      "name": "Tatulyan Arutyun",
+      "stars": 2,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606860013"
+          },
+          "2": {
+            "get_star_ts": "1606860803"
+          }
+        }
+      },
+      "local_score": 0,
+      "last_star_ts": "1606860803",
+      "id": "751506"
+    },
+    "751786": {
+      "id": "751786",
+      "local_score": 26,
+      "last_star_ts": "1607075149",
+      "stars": 6,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606818125"
+          },
+          "2": {
+            "get_star_ts": "1606918735"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606920186"
+          },
+          "2": {
+            "get_star_ts": "1606920927"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1607071813"
+          },
+          "2": {
+            "get_star_ts": "1607075149"
+          }
+        }
+      },
+      "name": "Valerii Dzyuba",
+      "global_score": 0
+    },
+    "920665": {
+      "global_score": 0,
+      "name": "ilya-sokolov",
+      "stars": 2,
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606943902"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606946189"
+          }
+        }
+      },
+      "local_score": 5,
+      "last_star_ts": "1606946189",
+      "id": "920665"
+    },
+    "950592": {
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606804718"
+          },
+          "2": {
+            "get_star_ts": "1606804811"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606892279"
+          },
+          "2": {
+            "get_star_ts": "1606892528"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1606983001"
+          },
+          "2": {
+            "get_star_ts": "1606984027"
+          }
+        },
+        "4": {
+          "1": {
+            "get_star_ts": "1607060096"
+          },
+          "2": {
+            "get_star_ts": "1607061453"
+          }
+        },
+        "5": {
+          "1": {
+            "get_star_ts": "1607150704"
+          },
+          "2": {
+            "get_star_ts": "1607151428"
+          }
+        }
+      },
+      "stars": 10,
+      "global_score": 0,
+      "name": "Vlad Tokarev",
+      "id": "950592",
+      "last_star_ts": "1607151428",
+      "local_score": 86
+    },
+    "999322": {
+      "completion_day_level": {
+        "1": {
+          "1": {
+            "get_star_ts": "1606806544"
+          },
+          "2": {
+            "get_star_ts": "1606806688"
+          }
+        },
+        "2": {
+          "1": {
+            "get_star_ts": "1606892980"
+          },
+          "2": {
+            "get_star_ts": "1606893604"
+          }
+        },
+        "3": {
+          "1": {
+            "get_star_ts": "1606975248"
+          },
+          "2": {
+            "get_star_ts": "1606976064"
+          }
+        },
+        "4": {
+          "1": {
+            "get_star_ts": "1607062217"
+          },
+          "2": {
+            "get_star_ts": "1607063695"
+          }
+        },
+        "5": {
+          "1": {
+            "get_star_ts": "1607156895"
+          },
+          "2": {
+            "get_star_ts": "1607157388"
+          }
+        }
+      },
+      "stars": 10,
+      "name": "Валерий",
+      "global_score": 0,
+      "id": "999322",
+      "local_score": 82,
+      "last_star_ts": "1607157388"
+    }
+  },
+  "owner_id": "379505",
+  "event": "2020"
+}
