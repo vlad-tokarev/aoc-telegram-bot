@@ -2,6 +2,7 @@
 SECRETS_DIR=
 DOCKER_REGISTRY=
 ENV_D=shmatov
+TAG=latest
 
 -include .env
 -include .env.local
@@ -23,17 +24,17 @@ test:
 # Docker
 
 docker-build:
-	docker build . -t aoc-telegram-bot
+	docker build . -t aoc-telegram-bot:${TAG}
 
 docker-bash:
-	 docker run -ti --env-file=.env -v ${SECRETS_DIR}:/run/secrets aoc-telegram-bot:latest bash
+	 docker run -ti --env-file=.env -v ${SECRETS_DIR}:/run/secrets aoc-telegram-bot:${TAG} bash
 
 docker-run:
-	 docker run -ti --env-file=.env -v ${SECRETS_DIR}:/run/secrets aoc-telegram-bot:latest
+	 docker run -ti --env-file=.env -v ${SECRETS_DIR}:/run/secrets aoc-telegram-bot:${TAG}
 
 docker-push:
-	docker tag aoc-telegram-bot:latest ${DOCKER_REGISTRY}/aoc-telegram-bot:latest
-	docker push ${DOCKER_REGISTRY}/aoc-telegram-bot:latest
+	docker tag aoc-telegram-bot:${TAG} ${DOCKER_REGISTRY}/aoc-telegram-bot:${TAG}
+	docker push ${DOCKER_REGISTRY}/aoc-telegram-bot:${TAG}
 
 docker-all: docker-build docker-push
 

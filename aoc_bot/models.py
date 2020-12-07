@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
 import pydantic
+import pytz
 from tabulate import tabulate
 
 SECRETS_DIR = os.environ.get("SECRETS_DIR", '/run/secrets')
@@ -81,6 +82,7 @@ class LeaderBoardDiff(pydantic.BaseModel):
     def __str__(self):
 
         date_format = "%H:%M:%S"
+        local = pytz.timezone("Europe/Moscow")
 
         report = "Changes in leaderboard!\n"
 
@@ -102,17 +104,16 @@ class LeaderBoardDiff(pydantic.BaseModel):
         for m in self.members:
             if m.new_solutions:
                 prefix = f"{m.member.username} solved "
-                content = ", ".join([f"d{s.day}_t{s.task} at {s.when.strftime(date_format)}" for s in m.new_solutions])
+                content = ", ".join(
+                    [f"d{s.day}_t{s.task} at {s.when.replace(tzinfo=pytz.utc).astimezone(local).strftime(date_format)}"
+                     for s in m.new_solutions]
+                )
                 row = prefix + content
                 solution_rows.append(row)
 
         report += "\n".join(solution_rows)
 
         return report
-
-
-
-
 
 
 def calc_member_new_solved(member_new: Member, member_old: Member) -> List[Solution]:
