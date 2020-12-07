@@ -1,4 +1,5 @@
 import os
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
@@ -43,22 +44,6 @@ class Member(pydantic.BaseModel):
     def username(self):
         return str(self.name) if self.name else f"anon {self.id}"
 
-    @property
-    def stars(self):
-
-        silver_ = "1"
-        gold_ = "2"
-
-        repr_ = ""
-        for day in sorted(self.completion_day_level.keys()):
-            stars_info = self.completion_day_level[day]
-            if stars_info.gold:
-                repr_ += gold_
-            elif stars_info.silver:
-                repr_ += silver_
-
-        return repr_
-
     def __str__(self):
         return f"{self.local_score=}  {self.username=}"
 
@@ -71,6 +56,12 @@ class MemberWithPosition(pydantic.BaseModel):
         return f"{self.position=}, {self.member.local_score=}, {self.member.username=}"
 
 
+class Solution(pydantic.BaseModel):
+    when: datetime
+    day: int
+    task: int
+
+
 class MemberProgress(pydantic.BaseModel):
 
     def __str__(self):
@@ -81,12 +72,17 @@ class MemberProgress(pydantic.BaseModel):
     pos_change: int
     score_change: int
     new: bool
+    new_solutions: List[Solution] = pydantic.Field(default_factory=list)
 
 
 class LeaderBoardDiff(pydantic.BaseModel):
     members: List[MemberProgress]
 
     def __str__(self):
+
+        date_format = "%H:%M:%S"
+
+        report = "Changes in leaderboard!\n"
 
         headers = ["pos", "score", "user"]
         tbl = []
@@ -100,7 +96,63 @@ class LeaderBoardDiff(pydantic.BaseModel):
             ]
             tbl.append(line)
 
-        return tabulate(tbl, headers=headers)
+        report += tabulate(tbl, headers=headers) + "\n--\n"
+
+        solution_rows = []
+        for m in self.members:
+            if m.new_solutions:
+                prefix = f"{m.member.username} solved "
+                content = ", ".join([f"d{s.day}_t{s.task} at {s.when.strftime(date_format)}" for s in m.new_solutions])
+                row = prefix + content
+                solution_rows.append(row)
+
+        report += "\n".join(solution_rows)
+
+        return report
+
+
+
+
+
+
+def calc_member_new_solved(member_new: Member, member_old: Member) -> List[Solution]:
+
+    new_solutions: List[Solution] = []
+    for day, stars in member_new.completion_day_level.items():
+        if day not in member_old.completion_day_level:
+            if stars.silver:
+                s = Solution(
+                    day=day,
+                    task=1,
+                    when=stars.silver.get_star_ts
+                )
+                new_solutions.append(s)
+            if stars.gold:
+                s = Solution(
+                    day=day,
+                    task=2,
+                    when=stars.gold.get_star_ts
+                )
+                new_solutions.append(s)
+        else:
+            old_stars = member_old.completion_day_level[day]
+
+            if stars.silver and not old_stars.silver:
+                s = Solution(
+                    day=1,
+                    task=1,
+                    when=stars.silver.get_star_ts
+                )
+                new_solutions.append(s)
+
+            if stars.gold and not old_stars.gold:
+                s = Solution(
+                    day=day,
+                    task=2,
+                    when=stars.gold.get_star_ts
+                )
+                new_solutions.append(s)
+    return new_solutions
 
 
 class LeaderBoard(pydantic.BaseModel):
@@ -169,12 +221,14 @@ class LeaderBoard(pydantic.BaseModel):
                 )
             else:
                 old_mem_pos = old_leader_board[id_]
+                new_solutions = calc_member_new_solved(mem_pos.member, old_mem_pos.member)
                 prog = MemberProgress(
                     member=mem_pos.member,
                     position=mem_pos.position,
                     new=False,
                     pos_change=-(mem_pos.position - old_mem_pos.position),
-                    score_change=mem_pos.member.local_score - old_mem_pos.member.local_score
+                    score_change=mem_pos.member.local_score - old_mem_pos.member.local_score,
+                    new_solutions=new_solutions
                 )
 
             members_change.append(prog)
