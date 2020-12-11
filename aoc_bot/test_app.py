@@ -151,6 +151,6 @@ def test_notify_telegram_chats():
         lb_changed = bot.LeaderBoard(**json.load(f2))
 
     diff = lb_changed - lb
-    bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, str(lb))
-    bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, str(lb_changed))
-    bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, str(diff))
+    bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, reports.text_leaderboard(lb))
+    bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, reports.text_leaderboard(lb_changed))
+    bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, reports.text_leaderboard_diff(diff))
