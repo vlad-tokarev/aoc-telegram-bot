@@ -45,16 +45,10 @@ class Member(pydantic.BaseModel):
     def username(self):
         return str(self.name) if self.name else f"anon {self.id}"
 
-    def __str__(self):
-        return f"{self.local_score=}  {self.username=}"
-
 
 class MemberWithPosition(pydantic.BaseModel):
     member: Member
     position: int
-
-    def __str__(self):
-        return f"{self.position=}, {self.member.local_score=}, {self.member.username=}"
 
 
 class Solution(pydantic.BaseModel):
@@ -64,9 +58,6 @@ class Solution(pydantic.BaseModel):
 
 
 class MemberProgress(pydantic.BaseModel):
-
-    def __str__(self):
-        return f"{self.position=} {self.pos_change=} {self.member.username=} {self.member.local_score=} {self.new=}"
 
     member: Member
     position: int
@@ -159,8 +150,14 @@ def calc_member_new_solved(member_new: Member, member_old: Member) -> List[Solut
 class LeaderBoard(pydantic.BaseModel):
     members: Dict[str, Member]
 
-    def sorted_members(self) -> Dict[str, MemberWithPosition]:
-        def sort(m: Tuple[str, Member]):
+    @property
+    def positioned_members(self) -> Dict[str, MemberWithPosition]:
+        """
+        Sorted members of leaderboard by position
+        position is determined by local score and date of receiving last star
+        :return:
+        """
+        def sort(m: Tuple[str, Member]) -> Tuple[int, datetime]:
             # We use username to stable sort
             return m[1].local_score, m[1].last_star_ts
         sorted_members: Dict[str, Member] = {k: v for k, v in sorted(self.members.items(), key=sort, reverse=True)}
@@ -180,7 +177,7 @@ class LeaderBoard(pydantic.BaseModel):
     def __str__(self):
         headers = ["pos", "score", "user"]
         tbl = []
-        for mp in self.sorted_members().values():
+        for mp in self.positioned_members.values():
             line = [
                 f"{str(mp.position):2} ",
                 f"{str(mp.member.local_score):4} ",
@@ -209,8 +206,8 @@ class LeaderBoard(pydantic.BaseModel):
 
         members_change: List[MemberProgress] = []
 
-        new_leader_board = self.sorted_members()
-        old_leader_board = other.sorted_members()
+        new_leader_board = self.positioned_members
+        old_leader_board = other.positioned_members
         for id_, mem_pos in new_leader_board.items():
             if id_ not in old_leader_board:
                 prog = MemberProgress(
