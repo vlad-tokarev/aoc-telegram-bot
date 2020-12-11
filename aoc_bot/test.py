@@ -1,4 +1,5 @@
 import json
+from unittest.mock import patch
 
 import pytest
 
@@ -137,3 +138,31 @@ def test_notify_telegram_chats():
     bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, str(lb))
     bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, str(lb_changed))
     bot.notify_telegram_chats(cfg.telegram_token, cfg.telegram_chats, str(diff))
+
+
+@pytest.mark.parametrize("current_board_file,fetched_board_file,expected_report_file", [
+    (None, "board_2.json", "board_2.json.report"),
+    ("board_1.json", "board_2.json", "board_2-1.report"),
+    ("board_2.json", "board_3.json", "board_3-2.report"),
+])
+def test_run_once(current_board_file, fetched_board_file, expected_report_file):
+
+    current_board = None
+    if current_board_file is not None:
+        with open(f"test_resources/{current_board_file}") as f:
+            current_board = models.LeaderBoard(**json.load(f))
+
+    with open(f"test_resources/{fetched_board_file}") as f:
+        fetched_board_json = json.load(f)
+
+    with open(f"test_resources/{expected_report_file}") as f:
+        expected_report = f.read()
+
+    with patch("bot.aoc_fetch_api") as fetch_mock, patch("bot.send_telegram_message") as send_mock:
+        fetch_mock.return_value = fetched_board_json
+        local_cfg = models.Settings(telegram_chats=["1234"], telegram_token="21414a14")
+
+        bot.run_once(local_cfg, current_board)
+
+        for chat in local_cfg.telegram_chats:
+            send_mock.assert_called_with(local_cfg.telegram_token, chat, expected_report)
