@@ -70,42 +70,6 @@ class MemberProgress(pydantic.BaseModel):
 class LeaderBoardDiff(pydantic.BaseModel):
     members: List[MemberProgress]
 
-    def __str__(self):
-
-        date_format = "%H:%M:%S"
-        local = pytz.timezone("Europe/Moscow")
-
-        report = "Changes in leaderboard!\n"
-
-        headers = ["pos", "score", "user"]
-        tbl = []
-        for mp in self.members:
-            pch = f"{mp.pos_change:>+3}" if mp.pos_change else f"{'0':>3}"
-            lch = f"{mp.score_change:>+3}" if mp.score_change else f"{'0':>3}"
-            line = [
-                f"{str(mp.position):2} {pch}",
-                f"{str(mp.member.local_score):4} {lch}",
-                mp.member.username[:18]
-            ]
-            tbl.append(line)
-
-        report += tabulate(tbl, headers=headers) + "\n--\n"
-
-        solution_rows = []
-        for m in self.members:
-            if m.new_solutions:
-                prefix = f"{m.member.username} solved "
-                content = ", ".join(
-                    [f"d{s.day}_t{s.task} at {s.when.replace(tzinfo=pytz.utc).astimezone(local).strftime(date_format)}"
-                     for s in m.new_solutions]
-                )
-                row = prefix + content
-                solution_rows.append(row)
-
-        report += "\n".join(solution_rows)
-
-        return report
-
 
 def calc_member_new_solved(member_new: Member, member_old: Member) -> List[Solution]:
 
@@ -173,19 +137,6 @@ class LeaderBoard(pydantic.BaseModel):
             result[k] = mem_pos
             pos += 1
         return result
-
-    def __str__(self):
-        headers = ["pos", "score", "user"]
-        tbl = []
-        for mp in self.positioned_members.values():
-            line = [
-                f"{str(mp.position):2} ",
-                f"{str(mp.member.local_score):4} ",
-                mp.member.username[:18]
-            ]
-            tbl.append(line)
-
-        return tabulate(tbl, headers=headers)
 
     def __eq__(self, other: 'LeaderBoard') -> bool:
         for k, v in self.members.items():

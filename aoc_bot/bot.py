@@ -10,6 +10,7 @@ from pydantic import ValidationError
 import telegram
 
 from models import LeaderBoard, Settings
+import reports
 
 logging.basicConfig(format='[%(levelname)8s] %(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S',
                     level=logging.INFO)
@@ -73,7 +74,7 @@ def run_once(conf: Settings, previous_board: LeaderBoard) -> LeaderBoard:
 
     if previous_board is None:
         logger.info("Previous leader board is None. Send current board without comparison")
-        notify_telegram_chats(conf.telegram_token, conf.telegram_chats, str(leader_board))
+        notify_telegram_chats(conf.telegram_token, conf.telegram_chats, reports.text_leaderboard(leader_board))
         return leader_board
 
     if leader_board == previous_board:
@@ -84,7 +85,7 @@ def run_once(conf: Settings, previous_board: LeaderBoard) -> LeaderBoard:
 
     logger.info("Diff was calculated")
 
-    notify_telegram_chats(conf.telegram_token, conf.telegram_chats, str(lb_diff))
+    notify_telegram_chats(conf.telegram_token, conf.telegram_chats, reports.text_leaderboard_diff(lb_diff))
 
     return leader_board
 
