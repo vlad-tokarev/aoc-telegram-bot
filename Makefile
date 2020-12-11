@@ -15,11 +15,15 @@ install-dev:
 install:
 	pipenv install
 
-lint:
+format:
+	black aoc_bot
+	isort aoc_bot
+
+lint: format
 	flake8 aoc_bot
 
 test:
-	cd aoc_bot && pytest test.py
+	pytest .
 
 # Docker
 

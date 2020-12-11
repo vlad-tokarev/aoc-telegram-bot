@@ -1,7 +1,7 @@
 import pytz
 from tabulate import tabulate
 
-import models
+from aoc_bot import models
 
 
 def text_leaderboard(lb: models.LeaderBoard) -> str:
@@ -13,7 +13,7 @@ def text_leaderboard(lb: models.LeaderBoard) -> str:
         line = [
             f"{str(mp.position):2} ",
             f"{str(mp.member.local_score):4} ",
-            mp.member.username[:18]
+            mp.member.username[:18],
         ]
         tbl.append(line)
 
@@ -35,7 +35,7 @@ def text_leaderboard_diff(lb_diff: models.LeaderBoardDiff) -> str:
         line = [
             f"{str(mp.position):2} {pch}",
             f"{str(mp.member.local_score):4} {lch}",
-            mp.member.username[:18]
+            mp.member.username[:18],
         ]
         tbl.append(line)
 
@@ -46,8 +46,10 @@ def text_leaderboard_diff(lb_diff: models.LeaderBoardDiff) -> str:
         if m.new_solutions:
             prefix = f"{m.member.username} solved "
             content = ", ".join(
-                [f"d{s.day}_t{s.task} at {s.when.replace(tzinfo=pytz.utc).astimezone(local).strftime(date_format)}"
-                 for s in m.new_solutions]
+                [
+                    f"d{s.day}_t{s.task} at {s.when.replace(tzinfo=pytz.utc).astimezone(local).strftime(date_format)}"
+                    for s in m.new_solutions
+                ]
             )
             row = prefix + content
             solution_rows.append(row)

@@ -6,14 +6,17 @@ from typing import Dict, List, Union
 
 import pydantic
 import requests
-from pydantic import ValidationError
 import telegram
+from pydantic import ValidationError
 
-from models import LeaderBoard, Settings
-import reports
+from aoc_bot import reports
+from aoc_bot.models import LeaderBoard, Settings
 
-logging.basicConfig(format='[%(levelname)8s] %(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S',
-                    level=logging.INFO)
+logging.basicConfig(
+    format="[%(levelname)8s] %(asctime)s - %(message)s",
+    datefmt="%d-%b-%y %H:%M:%S",
+    level=logging.INFO,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +45,9 @@ def send_telegram_message(token: str, chat_id: str, text: str):
     bot = telegram.bot.Bot(token=token)
     logger.warning(f"telegram message is prepared:\n{text}")
     text = text.replace("(", r"\(").replace(")", r"\)").replace("-", r"\-")
-    bot.send_message(chat_id, text=f"`{text}`", parse_mode=telegram.ParseMode.MARKDOWN_V2)
+    bot.send_message(
+        chat_id, text=f"`{text}`", parse_mode=telegram.ParseMode.MARKDOWN_V2
+    )
     logger.info("telegram message was sent")
 
 
@@ -73,8 +78,14 @@ def run_once(conf: Settings, previous_board: LeaderBoard) -> LeaderBoard:
     logger.info("JSON was parsed to leader board")
 
     if previous_board is None:
-        logger.info("Previous leader board is None. Send current board without comparison")
-        notify_telegram_chats(conf.telegram_token, conf.telegram_chats, reports.text_leaderboard(leader_board))
+        logger.info(
+            "Previous leader board is None. Send current board without comparison"
+        )
+        notify_telegram_chats(
+            conf.telegram_token,
+            conf.telegram_chats,
+            reports.text_leaderboard(leader_board),
+        )
         return leader_board
 
     if leader_board == previous_board:
@@ -85,7 +96,9 @@ def run_once(conf: Settings, previous_board: LeaderBoard) -> LeaderBoard:
 
     logger.info("Diff was calculated")
 
-    notify_telegram_chats(conf.telegram_token, conf.telegram_chats, reports.text_leaderboard_diff(lb_diff))
+    notify_telegram_chats(
+        conf.telegram_token, conf.telegram_chats, reports.text_leaderboard_diff(lb_diff)
+    )
 
     return leader_board
 
@@ -119,5 +132,5 @@ def run_forever():
         sleep(sleep_interval)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run_forever()
