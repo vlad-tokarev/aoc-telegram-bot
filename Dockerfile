@@ -6,6 +6,7 @@ COPY Pipfile.lock ./
 COPY Pipfile ./
 RUN pip install pipenv
 RUN pipenv install --system
+RUN mkdir -p /run/secrets
 
 COPY aoc_bot ./aoc_bot
 ENV PYTHONPATH=/opt/app
