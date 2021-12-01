@@ -7,7 +7,6 @@ COPY Pipfile ./
 RUN pip install pipenv
 RUN pipenv install --system
 
-COPY aoc_bot/bot.py ./
-COPY aoc_bot/models.py ./
-
-CMD ["python", "bot.py"]
+COPY aoc_bot ./aoc_bot
+ENV PYTHONPATH=/opt/app
+CMD ["python", "aoc_bot/bot.py"]

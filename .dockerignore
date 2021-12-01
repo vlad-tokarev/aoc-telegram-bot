@@ -1,6 +1,5 @@
 *
-!aoc_bot/bot.py
-!aoc_bot/models.py
+!aoc_bot
 !Pipfile.lock
 !Pipfile
 
